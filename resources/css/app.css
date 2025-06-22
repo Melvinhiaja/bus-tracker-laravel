@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'OCR A Extended';
+    src: url('/fonts/ocraextended.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'OCR A Extended Bold';
+    src: url('/fonts/OCRAEXT.TTF') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'OCR A Extended Regular';
+    src: url('/fonts/OCR A Extended Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'OCR A Extended';
+    src: url('/fonts/OCRAEXT.TTF') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+/* Styling untuk menggunakan font di berbagai elemen */
+.ocr-normal {
+    font-family: 'OCR A Extended', monospace;
+    font-weight: normal;
+}
+
+.ocr-bold {
+    font-family: 'OCR A Extended Bold', monospace;
+    font-weight: bold;
+}
+
+.ocr-regular {
+    font-family: 'OCR A Extended Regular', monospace;
+    font-weight: normal;
+}
