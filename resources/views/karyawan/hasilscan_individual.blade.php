@@ -1,59 +1,129 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <title>Hasil Scan Tiket</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-</head>
-<body class="bg-light">
+# 🚌 Laravel User Admin – Bus Ticket Booking & Live Tracking System  
+# 🚌 Laravel User Admin – Sistem Pemesanan Tiket & Pelacakan Bus
 
-<div class="container mt-4">
-    <h3 class="text-center mb-4">Detail Penumpang</h3>
+This is a **Laravel-based free bus ticket booking system** that supports **multi-role login** (Admin, Driver, Employee).  
+The project is designed to manage passengers digitally and track the position of buses and validate passengers based on location and identity.
 
-    <div class="card shadow">
-        <div class="card-body">
-            <p><strong>Nama:</strong> {{ $penumpang->nama }}</p>
-            <p><strong>NIK:</strong> {{ $penumpang->nik }}</p>
-            <p><strong>Desa:</strong> {{ $penumpang->kelurahan_desa }}</p>
-            <p><strong>Jenis Kelamin:</strong> {{ $penumpang->jenis_kelamin }}</p>
-            <p><strong>Tempat/Tgl Lahir:</strong> {{ $penumpang->tempat_tgl_lahir }}</p>
-            <p><strong>Alasan:</strong> {{ $penumpang->alasan->nama ?? '-' }}</p>
-            <p><strong>Kostum:</strong> {{ $penumpang->alasan_kostum ?? '-' }}</p>
-            <hr>
-            <p><strong>Bus:</strong> {{ $tiket->bus->nomor_bus ?? 'Tidak Tersedia' }}</p>
-            <p><strong>Dari:</strong> {{ $tiket->perjalanan->asal }}</p>
-            <p><strong>Ke:</strong> {{ $tiket->perjalanan->tujuan }}</p>
-            <p><strong>Tanggal Berangkat:</strong> {{ \Carbon\Carbon::parse($tiket->tanggal_berangkat)->format('d M Y') }}</p>
-            <p><strong>Tanggal Pulang:</strong> {{ \Carbon\Carbon::parse($tiket->tanggal_pulang)->format('d M Y') }}</p>
-        </div>
-    </div>
+Ini adalah sistem **pemesanan tiket bus gratis berbasis Laravel** yang mendukung **multi-role login** (Admin, Driver, Karyawan).  
+Proyek ini dirancang untuk mengelola penumpang secara digital serta melacak posisi bus dan memvalidasi penumpang berdasarkan lokasi dan identitas.
 
-    @auth
-    <form id="statusForm" action="{{ route('penumpang.aksi', ['id' => $penumpang->id]) }}" method="POST" class="mt-4">
-        @csrf
-        <input type="hidden" name="tiket_id" value="{{ $tiket->id }}">
-        <input type="hidden" name="status" value="naik">
-        <button type="submit" class="btn btn-success w-100 mb-3">Simpan Status</button>
-    </form>
+---
 
-    <form id="selesaiForm" action="{{ route('driver.show', ['id' => $tiket->id]) }}" method="GET">
-        <button type="submit" class="btn btn-primary w-100">Selesai</button>
-    </form>
-    @endauth
-</div>
+## 📌 Main Features  
+## 📌 Fitur Utama
 
-<script>
-    @if(session('status_disimpan'))
-    Swal.fire({
-        icon: 'success',
-        title: 'Status Disimpan',
-        text: 'Penumpang Naik',
-        showConfirmButton: false,
-        timer: 1500
-    });
-    @endif
-</script>
+- 🔐 **Multi-Role Authentication**: Admin, Driver, and Employee dashboards  
+- 🔐 **Autentikasi Multi-Role**: Dashboard berbeda untuk Admin, Driver, dan Karyawan
 
-</body>
-</html>
+- 🧭 **Live Tracking** of buses & passengers using TomTom Maps + HTML5 Geolocation  
+- 🧭 **Pelacakan Langsung** posisi bus & penumpang dengan TomTom Maps + Geolocation HTML5
+
+- 🪪 **ID Card Scanning (OCR)** for validating local residents  
+- 🪪 **Pemindaian KTP (OCR)** untuk validasi warga lokal
+
+- 🧾 **QR Code Generation & Scanning** for individual tickets  
+- 🧾 **Pembuatan & Pemindaian QR Code** untuk setiap tiket penumpang
+
+- 📈 **Report Exporting** to PDF, Excel, and Word  
+- 📈 **Ekspor Laporan** ke PDF, Excel, dan Word
+
+- ⚠️ **Passenger Validation** (boarded / not boarded) based on system logic  
+- ⚠️ **Validasi Penumpang** (naik / tidak naik) berbasis sistem
+
+---
+
+## ⚙️ Technologies & Tools  
+## ⚙️ Teknologi & Tools
+
+### Backend (Laravel)
+- Laravel 10+
+- Spatie Laravel-Permission (Role Management)
+- Laravel Validator & Session
+- Blade Templates
+- Routing (web.php)
+
+### Pemetaan & Pelacakan
+- Laravel 10+
+- Spatie Laravel-Permission (Manajemen Role)
+- Laravel Validator & Session
+- Blade Templates
+- Routing (web.php)
+
+### Mapping & Tracking  
+- **TomTom Maps SDK**  
+  - Map rendering  
+  - Routing API  
+  - Route markers and polylines  
+
+- **Geolocation API (HTML5)**  
+  - `getCurrentPosition()` and `watchPosition()` for real-time position updates  
+
+### Pemetaan & Pelacakan  
+- **TomTom Maps SDK**  
+  - Render peta  
+  - API routing  
+  - Marker & polyline rute  
+
+- **Geolocation API (HTML5)**  
+  - `getCurrentPosition()` dan `watchPosition()` untuk update posisi realtime
+
+### Frontend  
+- HTML, Bootstrap  
+- SweetAlert2 (pop-up notifications)  
+- JavaScript (AJAX, DOM manipulation)  
+- Custom map marker (Flaticon CDN)
+
+### Frontend  
+- HTML, Bootstrap  
+- SweetAlert2 (popup notifikasi)  
+- JavaScript (AJAX, manipulasi DOM)  
+- Marker peta kustom dari Flaticon CDN
+
+### Realtime Movement  
+- `setInterval()` every 5 seconds for position refresh  
+- Auto-update markers on map  
+
+### Gerakan Realtime  
+- `setInterval()` setiap 5 detik untuk refresh posisi  
+- Marker peta update otomatis  
+
+### Tickets & Validation  
+- **Tesseract.js** (OCR) for ID card scanning  
+- QRCode generator (e.g. `simple-qrcode`)  
+- **Laravel-Excel** to export reports to:
+  - `.pdf` (PDF)
+  - `.xlsx` (Excel)
+  - `.doc` (Word)
+
+### Tiket & Validasi  
+- **Tesseract.js** (OCR) untuk scan KTP  
+- QRCode generator (misalnya `simple-qrcode`)  
+- **Laravel-Excel** untuk ekspor laporan ke:
+  - `.pdf` (PDF)
+  - `.xlsx` (Excel)
+  - `.doc` (Word)
+
+---
+
+## 🗂️ Project Folder Structure  
+## 🗂️ Struktur Folder Proyek
+
+```bash
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/
+│   │   └── Middleware/
+│   ├── Models/
+├── resources/
+│   ├── views/
+├── routes/
+│   └── web.php
+├── public/
+│   └── maps/
+├── config/
+├── storage/
+├── database/
+│   └── migrations/
+├── .env
+├── composer.json
+└── README.md
